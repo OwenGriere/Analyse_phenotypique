@@ -4,7 +4,7 @@ This tool is about the constrcution of a Manhattan plot with large data. Those d
 
 all the data are stock in the data folder, separated in chromosome and each txt file are formating like this :
 
-    CHROM   POS             ID                  REF ALT ID patient
+    CHROM   POS             ID                      REF         ALT         ID patient
     chr22	18527977	chr22_18527977_G_A	G	A	2370776 2386621
 
 the column ID patient contains all the ID associated at a variant in particular and separated by a space

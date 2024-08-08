@@ -18,6 +18,6 @@ tag "Analyse of ${name}"
 
     script:
     """
-    python ${params.directory}/tools/analyse.py ${path} '${params.directory}/RESULT' '$path/data/pheno_full.tsv' ${name}
+    python ${params.directory}/tools/analyse.py ${path} '${params.directory}/RESULT' '${params.directory}/data/pheno_full.tsv' ${name}
     """
 }

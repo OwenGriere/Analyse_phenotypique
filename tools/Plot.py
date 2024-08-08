@@ -27,7 +27,7 @@ result = df_analyse[(df_analyse['p-value'] <= 0.05/len(df_analyse)) & (df_analys
 for chrom in sorted(chromosomes):
     chrom_length = df_analyse[df_analyse['chr'] == chrom]['pos'].max()
     chromosome_offsets[chrom] = current_offset
-    current_offset += chrom_length + 1000000
+    current_offset += chrom_length #+ 1000000
 
 df_analyse['adjusted_pos'] = df_analyse.apply(lambda row: row['pos'] + chromosome_offsets[row['chr']], axis=1)
 

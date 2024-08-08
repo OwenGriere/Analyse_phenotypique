@@ -59,6 +59,6 @@ plt.xticks(list(chromosome_centers.values()), list(chromosome_centers.keys()))
 plt.legend(title='Chromosome')
 plt.savefig(f'{args.save_path}/Manhattan.png')
 
-result = df_analyse[df_analyse['-log10(p-value)'] <= threshold]
+result = df_analyse[df_analyse['-log10(p-value)'] >= threshold]
 result.to_csv(f'{args.save_path}/result.csv', index=False, float_format='%.2e')
 

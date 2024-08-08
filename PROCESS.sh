@@ -7,14 +7,15 @@
 
 module load nextflow
 source activate UTRAnnotator_env ## needed conda environment
-source process.conf
+source configuration/process.conf
 
-echo -e "\t\t\t--- WELCOME ---\n" 
+echo -e "\n\t\t\t--- WELCOME ---\n" 
+mkdir -p $path/RESULT
 
 nextflow run $path/tools/PROCESS.nf -c $configNF -with-report report.html
 
-awk '(NR == 1) || (FNR > 1)' $path/*.csv > $path/df_analyse.csv
+awk '(NR == 1) || (FNR > 1)' $path/RESULT/*.csv > $path/df_analyse.csv
 
-python $path/tools/Plot.py
+python $path/tools/Plot.py $path/df_analyse.csv $path
 
 echo -e "\t\t\t--- DONE ---" 

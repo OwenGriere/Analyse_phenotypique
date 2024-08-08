@@ -22,6 +22,8 @@ chromosomes = df_analyse['chr'].unique()
 chromosome_offsets = {}
 current_offset = 0
 
+result = df_analyse[(df_analyse['p-value'] <= 0.05/len(df_analyse)) & (df_analyse['p-value'] > 0)]
+
 for chrom in sorted(chromosomes):
     chrom_length = df_analyse[df_analyse['chr'] == chrom]['pos'].max()
     chromosome_offsets[chrom] = current_offset
@@ -33,7 +35,7 @@ plt.figure(figsize=(25, 12))
 sns.scatterplot(data=df_analyse, x='adjusted_pos', y='-log10(p-value)', hue='chr', palette=colors, legend='full', s=30, alpha=0.7)
 
 plt.axhline(y=threshold, color='red', linestyle='--')
-plt.text(x=chromosome_offsets[sorted(chromosomes)[-1]] / 2, y=threshold + 0.2, s="Limite de significativité", color='red', ha='center')
+plt.text(x=chromosome_offsets[sorted(chromosomes)[-1]] / 2, y=threshold + 0.2, s=f"Limite de significativité, {len(result)} variants sont trouvés", color='red', ha='center')
 
 for chrom in sorted(chromosomes):
     plt.axvline(x=chromosome_offsets[chrom], color='gray', linestyle='--')
@@ -59,6 +61,6 @@ plt.xticks(list(chromosome_centers.values()), list(chromosome_centers.keys()))
 plt.legend(title='Chromosome')
 plt.savefig(f'{args.save_path}/Manhattan.png')
 
-result = df_analyse[df_analyse['-log10(p-value)'] >= threshold]
+
 result.to_csv(f'{args.save_path}/result.csv', index=False, float_format='%.2e')
 

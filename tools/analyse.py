@@ -104,6 +104,8 @@ for index, row in df_analyse.iterrows():
 
     else:
         df_analyse.at[index, 'p-value'] = stats.ttest_ind(echantillon_a_tester, echantillon_global)[1]
+        if row['p-value'] == 0:
+            df_analyse.drop(index)
 
 df_analyse['-log10(p-value)'] = -np.log10(df_analyse['p-value'])
 

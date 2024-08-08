@@ -2,7 +2,9 @@
 
 This tool is about the constrcution of a Manhattan plot with large data. Those data are generated previously by using MORFEE and find all the ID's patient associate at all the genetics variants found through MORFEE in all gene of the human genome.
 
-all the data are stock in the data folder, separated in chromosome and each txt file are formating like this :
+this tools are made to be used on a cluster as the BiRD cluster.
+
+all the data are stocked in the data folder, separated in chromosome and each txt file are formating like this :
 
     CHROM   POS             ID                      REF     ALT     ID patient
     chr22	18527977	chr22_18527977_G_A	G	A	2370776 2386621
@@ -23,3 +25,29 @@ First of all, you need to have python 3.0 or more on your computer with the foll
     - sklearn
     - scipy
 
+You need to also have nextflow on the cluster
+
+# Architecture of the tool
+
+## Example folder
+
+Contains the manhattan plot obtain when you execute the tools with the files currently present in the data folder 
+
+## data folder
+
+Contains data of several chromosome to test the tool and a table of phenotypes
+
+## tools folder
+
+- analyse.py which generate the csv usefull for the creation of the Manhattan plot and calculate also the p-value of a Student test for all variants
+
+- Plot.py use the concatanated csv to plot the Manhattan plot and return an other csv with only the signifiant variants
+
+- PROCESS.nf is a nextflow script which parallelizes the execution by the differents files in our case : 4 parallelizations but 22 in a full human genome (without XY)
+
+## PROCESS.sh
+
+it's the heart of the tool, when you had install the tool on your computer you just need to execute these commands :
+
+    chmod u+x PROCESS.sh
+    ./PROCESS.sh

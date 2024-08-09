@@ -26,11 +26,13 @@ chromosomes = df_analyse['chr'].unique()
 chromosome_offsets = {}
 current_offset = 0
 
+
 ## filter all the significants variants
 result = df_analyse[df_analyse['p-value'] <= 0.05/len(df_analyse)]
 result = result[['chr','pos','ID','-log10(p-value)']]
 
 ## separate the chromosome on the plot
+
 for chrom in sorted(chromosomes):
     chrom_length = df_analyse[df_analyse['chr'] == chrom]['pos'].max()
     chromosome_offsets[chrom] = current_offset
@@ -44,10 +46,7 @@ sns.scatterplot(data=df_analyse, x='adjusted_pos', y='-log10(p-value)', hue='chr
 
 plt.axhline(y=threshold, color='red', linestyle='--')
 plt.text(x=chromosome_offsets[sorted(chromosomes)[-1]] / 8, y=threshold + 0.2, s=f"Limite de significativité à {threshold}, {len(result)} variants sont trouvés", color='red', ha='center')
-"""
-plt.axhline(y=27-0.2, color='red', linestyle='--')
-plt.text(x=chromosome_offsets[sorted(chromosomes)[-1]] / 8, y=27, s=f"Plofond de p_value", color='red', ha='center')
-"""
+
 
 for chrom in sorted(chromosomes):
     plt.axvline(x=chromosome_offsets[chrom], color='gray', linestyle='--')
@@ -68,6 +67,7 @@ for i, chrom in enumerate(sorted_chromosomes):
 plt.xticks(list(chromosome_centers.values()), list(chromosome_centers.keys()))
 
 plt.legend(title='Chromosome')
+
 
 ## Save the plot and the txt file
 

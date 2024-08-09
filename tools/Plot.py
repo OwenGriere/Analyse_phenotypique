@@ -47,7 +47,6 @@ sns.scatterplot(data=df_analyse, x='adjusted_pos', y='-log10(p-value)', hue='chr
 plt.axhline(y=threshold, color='red', linestyle='--')
 plt.text(x=chromosome_offsets[sorted(chromosomes)[-1]] / 8, y=threshold + 0.2, s=f"Limite de significativité à {threshold}, {len(result)} variants sont trouvés", color='red', ha='center')
 
-
 for chrom in sorted(chromosomes):
     plt.axvline(x=chromosome_offsets[chrom], color='gray', linestyle='--')
 
@@ -74,4 +73,3 @@ plt.legend(title='Chromosome')
 plt.savefig(f'{args.save_path}/Manhattan.png')
 result.to_csv(f'{args.save_path}/result.txt',sep='\t', index=False, float_format='%.2e', line_terminator='\n')
 
-print(len(df_analyse[df_analyse['p-value'] == 0]))

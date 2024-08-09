@@ -11,7 +11,7 @@ parser.add_argument('save_path', type=str, help="the save path")
 args = parser.parse_args()
 
 ######################################################################################################################
-################################################# Graphics #########################################################
+################################################# Graphics ###########################################################
 ######################################################################################################################
 
 ## load the concatenated csv file
@@ -45,7 +45,7 @@ plt.figure(figsize=(25, 12))
 sns.scatterplot(data=df_analyse, x='adjusted_pos', y='-log10(p-value)', hue='chr', palette=colors, legend='full', s=30, alpha=0.7)
 
 plt.axhline(y=threshold, color='red', linestyle='--')
-plt.text(x=chromosome_offsets[sorted(chromosomes)[-1]] / 8, y=threshold + 0.2, s=f"Limite de significativité à {threshold}, {len(result)} variants sont trouvés", color='red', ha='center')
+plt.text(x=chromosome_offsets[sorted(chromosomes)[-1]] / 8, y=threshold + 0.2, s=f"Limite de significativité à {threshold}, {len(result)} variants significatifs", color='red', ha='center')
 
 for chrom in sorted(chromosomes):
     plt.axvline(x=chromosome_offsets[chrom], color='gray', linestyle='--')
@@ -71,5 +71,8 @@ plt.legend(title='Chromosome')
 ## Save the plot and the txt file
 
 plt.savefig(f'{args.save_path}/Manhattan.png')
-result.to_csv(f'{args.save_path}/result.txt',sep='\t', index=False, float_format='%.2e', line_terminator='\n')
 
+#result.to_csv(f'{args.save_path}/result.txt',sep='\t', index=False, float_format='%.2e', line_terminator='\n')
+with open(f'{args.save_path}/result.txt', 'w') as file:
+    for index, row in result.iterrows():
+        file.write('\t'.join(map(str, row.values)) + '\n')

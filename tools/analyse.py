@@ -28,9 +28,11 @@ def normalize_group(group):
 df_pheno = pd.read_csv(args.pathTab, sep='\t')
 df_pheno = df_pheno.set_index('ID')
 
+## drop the NaN row
 df_pheno = df_pheno.loc[:, ['Age','Sex', 'LDL','Cholesterol_lowering_medication']]
 df_pheno = df_pheno.dropna(subset=['Age','Sex', 'LDL','Cholesterol_lowering_medication'])
 
+## Make a normalization with Age Sex and medication and select ID_patient and LDL
 df_pheno['Cholesterol_lowering_medication'] = df_pheno['Cholesterol_lowering_medication'].map({'yes': 1, 'no': 0})
 scaler = StandardScaler()
 cols_to_normalize = ['LDL']
@@ -41,6 +43,7 @@ df_pheno = df_pheno.groupby(['Age', 'Sex', 'Cholesterol_lowering_medication'], g
 ################################################# Generate pandas ####################################################
 ######################################################################################################################
 
+## create the tab for variants and the other for patient linked by variants and ID
 df_analyse = {
     'chr': [],
     'pos': [],
@@ -55,11 +58,7 @@ df_patients = {
     'LDL': []
 }
 
-"""
-pattern = os.path.join(args.path, '*.txt')
-fichiers_texte = glob.glob(pattern)
-"""
-
+## fill the tab with the txt file and the phenotypes tab
 with open(args.path, 'r' ) as file:
     for line in file:
         element = line.strip().split('\t')
@@ -87,28 +86,40 @@ df_patients.set_index('variants', inplace=True)
 ################################################# Statistiques #######################################################
 ######################################################################################################################
 
+## created a global part of df_pheno without the patients found in our data
 echantillon_global = df_pheno[~df_pheno.index.isin(df_patients['ID'])]['LDL']
 
 variants_np = df_patients.index.to_numpy()
 ldl_np = df_patients['LDL'].to_numpy()
 
+compteur=0
+tab_drop=[]
+
+## work the Student test for all variants 
+
 for index, row in df_analyse.iterrows():
-    
     echantillon_a_tester = ldl_np[variants_np == row['ID']].tolist()
-    #echantillon_a_tester = df_patients.loc[row['ID'], 'LDL'].tolist()
+    
     if isinstance(echantillon_a_tester, float):
         echantillon_a_tester = [echantillon_a_tester]
     
     if len(echantillon_a_tester)==0:
-        df_analyse.drop(index)
+        tab_drop.append(index)
 
     else:
-        df_analyse.at[index, 'p-value'] = stats.ttest_ind(echantillon_a_tester, echantillon_global)[1]
-        if row['p-value'] == 0:
-            df_analyse.drop(index)
+        p_value = stats.ttest_ind(echantillon_a_tester, echantillon_global)[1]
+        """
+        if p_value < 1e-27:
+            p_value = 1e-25
+        """
+        df_analyse.at[index, 'p-value'] = p_value
 
+## drop the variants don't found in our data (it's possible if patient are not found in phenotype tab)
+df_analyse.drop(tab_drop, inplace=True)
 df_analyse['-log10(p-value)'] = -np.log10(df_analyse['p-value'])
 
-df_analyse.to_csv(f'{args.save_path}/{args.name}.csv', index=False, float_format='%.2e')
+## save the csv
+df_analyse.to_csv(f'{args.save_path}/{args.name}.csv', index=False, float_format='%.5e')
 
+#print(len(df_analyse[df_analyse['p-value'] == 0]))
 #print(f"\nTableau des variants isolé par MORFEE de taille : {df_analyse.shape}\n{df_analyse.head(20)}")

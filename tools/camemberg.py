@@ -30,11 +30,13 @@ data = data[data['location'] == 'UTR5']
 ensemble=set(ORF)
 categorie=[]
 valeur=[]
+total=0
 for i in ensemble:
     s=len(data[data['ORF'] == i])
     if s != 0:
         valeur.append(s)
         categorie.append(i)
+        total+=s
 
 df = {
     'Catégories': categorie,
@@ -44,10 +46,10 @@ df = {
 df=pd.DataFrame(df)
 print(df)
 
-plt.figure(figsize=(20, 20))
+plt.figure(figsize=(12, 12))
 wedges, texts, autotexts = plt.pie(df['Valeurs'], labels=df['Catégories'], autopct='%1.1f%%', startangle=140)
 
-plt.legend(wedges, df['Catégories'], title="Catégories", loc="center left", bbox_to_anchor=(1, 0, 0.5, 1))
+plt.legend(wedges, df['Catégories'], title="Type de Variations", loc="center left", bbox_to_anchor=(1, 0, 0.5, 1))
 
-plt.title("Diagramme Circulaire")
+plt.title(f"Distribution des types de variations pour les variants significatifs dans le 5'UTR pour {total} variants")
 plt.savefig(f'{args.save_path}/Camemberg.png')

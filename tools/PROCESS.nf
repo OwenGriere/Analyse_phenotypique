@@ -8,6 +8,8 @@ workflow {
     Analyse_pheno(canal)
 }
 
+// Parallelization of all different txt tab (in our case each txt tab is for one chromosome in particular)
+
 process Analyse_pheno {
 tag "Analyse of ${name}"
 

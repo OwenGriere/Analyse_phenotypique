@@ -25,6 +25,7 @@ ID = variants[2].tolist()
 
 ORF_type=[]
 location=[]
+overlap=[]
 dataframes=[]
 
 for i in range(len(ID)):
@@ -32,6 +33,10 @@ for i in range(len(ID)):
     dataframes.append(line)
     ORF_type.append(line['orfSNVs_type'].values[0] if not line['orfSNVs_type'].empty else 'NA')
     location.append(line['Func.ensGene'].values[0] if not line['Func.ensGene'].empty else 'NA')
+    temp=[]
+    for i in line['type_of_generated_ORF'].values[0].split(';'):
+        temp.append(i)
+    overlap.append(' '.join(temp))
 df_result = pd.concat(dataframes, ignore_index=True)
 
 output_file = f'{args.save_path}/filtered_MORFEE.xlsx'
@@ -40,7 +45,7 @@ df_result.to_excel(output_file, index=False)
 with open(args.txt_path, 'r') as file:
     lines = file.readlines()
 
-modified_lines = [line.rstrip('\n') + f'\t{ORF_type[index]}\t{location[index]}' + '\n' for index,line in enumerate(lines)]
+modified_lines = [line.rstrip('\n') + f'\t{ORF_type[index]}\t{location[index]}\t{overlap[index]}' + '\n' for index,line in enumerate(lines)]
 
 with open(args.txt_path, 'w') as file:
     file.writelines(modified_lines)

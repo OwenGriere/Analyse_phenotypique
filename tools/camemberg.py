@@ -1,7 +1,7 @@
-import pandas as pd
+import pandas as pd # type: ignore
 import argparse
-import matplotlib.pyplot as plt
-import seaborn as sns
+import matplotlib.pyplot as plt # type: ignore
+import seaborn as sns # type: ignore
 
 parser = argparse.ArgumentParser()
 parser.add_argument('txt_path', type=str, help="the txt path")

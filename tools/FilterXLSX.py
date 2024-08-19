@@ -15,7 +15,10 @@ MORFEE = pd.read_excel(args.XLSX_path, sheet_name='Sheet1')
 variants = pd.read_csv(args.txt_path, sep='\t', header=None)
 
 gene_columns = MORFEE.filter(regex=r'^Gene\.').columns.tolist()
-columns_to_select = ['seqnames', 'start','REF','ALT','orfSNVs_frame','orfSNVs_type','Func.ensGene','type_of_generated_ORF','NewAALength'] + gene_columns
+columns_to_select = ['seqnames', 'start','REF','ALT','avsnp150']  + gene_columns +['Transcript','RefSeq_transcript'
+                    ,'Func.ensGene','orfSNVs_type','TIS_sequence','modification_type','orfSNVs_frame'
+                    ,'type_of_generated_ORF','NewAALength','Kozak_sequence','Kozak_score'
+                    ,'gwasCatalog','CLNDN','CLNDISDB','CLNSIG']
 MORFEE = MORFEE[columns_to_select].copy()
 
 

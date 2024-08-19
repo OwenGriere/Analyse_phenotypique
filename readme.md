@@ -41,9 +41,18 @@ Contains data of several chromosome to test the tool and a table of phenotypes
 
 - analyse.py which generate the csv usefull for the creation of the Manhattan plot and calculate also the p-value of a Student test for all variants
 
-- Plot.py use the concatanated csv to plot the Manhattan plot and return an other csv with only the signifiant variants
+- Plot.py use the concatanated csv to plot the Manhattan plot and return an other txt with only the signifiant variants
 
 - PROCESS.nf is a nextflow script which parallelizes the execution by the differents files in our case : 4 parallelizations but 22 in a full human genome (without XY)
+
+- camemberg.py return a camembert plot showing the distribution of type of generated ORF for uTIS and type of variation for variants in UTR 5'
+
+## configuration folder 
+
+Contains 2 configuration files :
+
+- analyse.config is the nextflow config file which needed the working directory for the execution (is this directory you must have a data folder with the txt data)
+- process.conf is the PROCESS.sh config file. it contains the working directory (same of previously), the path for the nextflow config file and the path for the MORFEE tab 
 
 ## PROCESS.sh
 

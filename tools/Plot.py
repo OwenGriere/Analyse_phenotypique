@@ -73,6 +73,6 @@ plt.legend(title='Chromosome')
 plt.savefig(f'{args.save_path}/Manhattan.png')
 
 #result.to_csv(f'{args.save_path}/result.txt',sep='\t', index=False, float_format='%.2e', line_terminator='\n')
-with open(f'{args.save_path}/result.txt', 'w') as file:
+with open(f'{args.save_path}/variants.txt', 'w') as file:
     for index, row in result.iterrows():
         file.write('\t'.join(map(str, row.values)) + '\n')

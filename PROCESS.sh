@@ -12,11 +12,19 @@ mkdir -p $path/RESULT
 
 nextflow run $path/tools/PROCESS.nf -c $configNF -with-report report.html ## nextflow parallelization by chromosome
 
+printf "- Results Concatenation and Manhattan Plot ..."
 awk '(NR == 1) || (FNR > 1)' $path/RESULT/*.csv > $path/df_analyse.csv ## concatenate all the csv in one
+rm $path/RESULT/*.csv
+mv $path/df_analyse.csv $path/RESULT/
+python $path/tools/Plot.py $path/RESULT/df_analyse.csv $path/RESULT ## Plot Manhattan Plot
+echo -e "DONE\n"
 
-python $path/tools/Plot.py $path/df_analyse.csv $path ## Plot Manhattan Plot
+printf "- FILTERING MORFEE FILE ..." 
+python $path/tools/FilterXLSX.py $MORFEE_tab $path/variants.txt $path/RESULT
+echo -e "DONE\n"
 
-echo -e "\t\t\t--- DONE ---" 
+printf "- Plotting Camembert ..."
+python $path/tools/camemberg.py $path/variants.txt $path/RESULT
+echo -e "DONE\n"
 
-echo -e "FILTERING MORFEE FILE ..."
-
+echo -e "\n\t\t\t\e[30;46m------------\n\t\t\t--- DONE ---\n\t\t\t------------\e[0m\n"

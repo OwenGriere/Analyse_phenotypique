@@ -32,7 +32,7 @@ overlap=[]
 dataframes=[]
 
 for i in range(len(ID)):
-    line=MORFEE[(MORFEE['seqnames'] == chr[i]) & (MORFEE['start'] == pos[i])]
+    line=MORFEE[(MORFEE['seqnames'] == chr[i]) & (MORFEE['start'] == pos[i]) & (MORFEE['Func.ensGene']=='UTR5')]
     dataframes.append(line)
     ORF_type.append(line['orfSNVs_type'].values[0] if not line['orfSNVs_type'].empty else 'NA')
     location.append(line['Func.ensGene'].values[0] if not line['Func.ensGene'].empty else 'NA')

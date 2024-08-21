@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo -e "\n\t\t\t\e[30;46m---------------\n\t\t\t--- WELCOME ---\n\t\t\t---------------\e[0m\n" 
+echo -e "\n\t\t\t\e[30;46m---------------\e[0m\n\t\t\t\e[30;46m--- WELCOME ---\e[0m\n\t\t\t\e[30;46m---------------\e[0m\n" 
 
 printf "MODULE LOADING ... "
 module load nextflow
@@ -27,4 +27,4 @@ printf "- Plotting Camembert ..."
 python $path/tools/camemberg.py $path/variants.txt $path/RESULT
 echo -e "DONE\n"
 
-echo -e "\n\t\t\t\e[30;46m------------\n\t\t\t--- DONE ---\n\t\t\t------------\e[0m\n"
+echo -e "\n\t\t\t\e[30;46m------------\e[0m\n\t\t\t\e[30;46m--- DONE ---\e[0m\n\t\t\t\e[30;46m------------\e[0m\n"

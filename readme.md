@@ -35,7 +35,7 @@ Contains the manhattan plot obtain when you execute the tools with the files cur
 
 ## data folder
 
-Contains data of several chromosome to test the tool and a table of phenotypes
+Contains data of several chromosome to test the tool and a table of phenotypes(actually not here because of privacy)
 
 ## tools folder
 

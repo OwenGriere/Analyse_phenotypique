@@ -32,7 +32,7 @@ overlap=[]
 dataframes=[]
 
 for i in range(len(ID)):
-    line=MORFEE[(MORFEE['seqnames'] == chr[i]) & (MORFEE['start'] == pos[i]) & (MORFEE['Func.ensGene']=='UTR5')]
+    line=MORFEE[(MORFEE['seqnames'] == chr[i]) & (MORFEE['start'] == pos[i])]
     dataframes.append(line)
     ORF_type.append(line['orfSNVs_type'].values[0] if not line['orfSNVs_type'].empty else 'NA')
     location.append(line['Func.ensGene'].values[0] if not line['Func.ensGene'].empty else 'NA')
@@ -44,6 +44,10 @@ df_result = pd.concat(dataframes, ignore_index=True)
 
 output_file = f'{args.save_path}/filtered_MORFEE.xlsx'
 df_result.to_excel(output_file, index=False)
+df_result[['Func.ensGene']=='UTR5'].to_excel(f'{args.save_path}/UTR5_MORFEE.xlsx',index= False)
+
+print(df_result.head(10))
+print(f"On trouve {len(df_result)} issue de MORFEE dont {len(df_result[['Func.ensGene']=='UTR5'])} en particulier dans le 5'UTR")
 
 with open(args.txt_path, 'r') as file:
     lines = file.readlines()

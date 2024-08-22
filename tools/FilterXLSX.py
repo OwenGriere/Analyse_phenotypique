@@ -44,7 +44,7 @@ df_result = pd.concat(dataframes, ignore_index=True)
 
 output_file = f'{args.save_path}/filtered_MORFEE.xlsx'
 df_result.to_excel(output_file, index=False)
-df_result[['Func.ensGene']=='UTR5'].to_excel(f'{args.save_path}/UTR5_MORFEE.xlsx',index= False)
+df_result[df_result['Func.ensGene']=='UTR5'].to_excel(f'{args.save_path}/UTR5_MORFEE.xlsx',index= False)
 
 print(df_result.head(10))
 print(f"On trouve {len(df_result)} issue de MORFEE dont {len(df_result[['Func.ensGene']=='UTR5'])} en particulier dans le 5'UTR")

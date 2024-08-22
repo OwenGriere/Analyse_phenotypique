@@ -47,7 +47,7 @@ df_result.to_excel(output_file, index=False)
 df_result[df_result['Func.ensGene']=='UTR5'].to_excel(f'{args.save_path}/UTR5_MORFEE.xlsx',index= False)
 
 print(df_result.head(10))
-print(f"On trouve {len(df_result)} issue de MORFEE dont {len(df_result[['Func.ensGene']=='UTR5'])} en particulier dans le 5'UTR")
+print(f"On trouve {len(df_result)} issue de MORFEE dont {len(df_result[df_result['Func.ensGene']=='UTR5'])} en particulier dans le 5'UTR")
 
 with open(args.txt_path, 'r') as file:
     lines = file.readlines()

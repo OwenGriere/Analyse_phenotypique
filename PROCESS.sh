@@ -20,11 +20,11 @@ python $path/tools/Plot.py $path/RESULT/df_analyse.csv $path/RESULT ## Plot Manh
 echo -e "DONE\n"
 
 printf "FILTERING MORFEE FILE ..." 
-python $path/tools/FilterXLSX.py $MORFEE_tab $path/variants.txt $path/RESULT
+python $path/tools/FilterXLSX.py $MORFEE_tab $path/RESULT/variants.txt $path/RESULT
 echo -e "DONE\n"
 
 printf "- Plotting Camembert ..."
-python $path/tools/camemberg.py $path/variants.txt $path/RESULT
+python $path/tools/camemberg.py $path/RESULT/variants.txt $path/RESULT
 echo -e "DONE\n"
 
 echo -e "\n\t\t\t\e[35m------------\e[0m\n\t\t\t\e[35m--- DONE ---\e[0m\n\t\t\t\e[35m------------\e[0m\n"

@@ -48,7 +48,7 @@ df = {
 }
 
 df=pd.DataFrame(df)
-print(df)
+
 
 test = data[data['ORF'] == 'uTIS']
 overlapping = 0
@@ -56,7 +56,7 @@ not_overlapping = 0
 elongated = 0
 
 
-for i in range(len(test)):
+for i in test.index:
     tab = test.loc[i, 'overlap'].split()
     for j in tab:
         if j == "not_overlapping":
@@ -77,9 +77,9 @@ wedges, texts, autotexts = ax1.pie(df['Valeurs'], labels=df['Catégories'], auto
 ax1.legend(wedges, df['Catégories'], title="Type de Variations", loc="center left", bbox_to_anchor=(1, 0, 0.5, 1))
 ax1.set_title(f"Distribution des types de variations pour les variants significatifs dans le 5'UTR pour {total} variants")
 
-wedges, texts, autotexts = ax2.pie(overlapping['valeurs'], labels=overlapping['catégories'], autopct='%1.1f%%', startangle=140)
-ax2.legend(wedges, overlapping['catégories'], title="Conséquence sur la protéine produites", loc="center left", bbox_to_anchor=(1, 0, 0.5, 1))
-ax2.set_title(f"Distribution des conséquences pour les potéines induites par une mutation uTIS dans le 5'UTR")
+wedges, texts, autotexts = ax2.pie(overlapping['valeurs'], labels=overlapping['categories'], autopct='%1.1f%%', startangle=140)
+ax2.legend(wedges, overlapping['categories'], title="Conséquence sur la protéine produites", loc="center left", bbox_to_anchor=(1, 0, 0.5, 1))
+ax2.set_title(f"Distribution des conséquences pour les potéines induites par une mutation uTIS dans le 5'UTR pour {len(test)} variants")
 
 plt.tight_layout()
 plt.savefig(f'{args.save_path}/Camemberg.png')

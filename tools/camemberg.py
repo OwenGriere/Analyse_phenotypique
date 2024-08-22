@@ -57,7 +57,7 @@ elongated = 0
 
 
 for i in range(len(data)):
-    tab = data.iloc[i, 'overlap'].split()
+    tab = data.loc[i, 'overlap'].split()
     for j in tab:
         if j == "not_overlapping":
             not_overlapping+=1

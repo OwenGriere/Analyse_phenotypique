@@ -34,12 +34,24 @@ dataframes=[]
 for i in range(len(ID)):
     line=MORFEE[(MORFEE['seqnames'] == chr[i]) & (MORFEE['start'] == pos[i])]
     dataframes.append(line)
-    ORF_type.append(line['orfSNVs_type'].values[0] if not line['orfSNVs_type'].empty else 'NA')
-    location.append(line['Func.ensGene'].values[0] if not line['Func.ensGene'].empty else 'NA')
-    temp=[]
-    for i in line['type_of_generated_ORF'].values[0].split(';'):
-        temp.append(i)
-    overlap.append(' '.join(temp))
+    if not line.empty:  # Vérifier si le DataFrame filtré n'est pas vide
+        ORF_type.append(line['orfSNVs_type'].values[0] if not line['orfSNVs_type'].empty else 'NA')
+        location.append(line['Func.ensGene'].values[0] if not line['Func.ensGene'].empty else 'NA')
+        temp = []
+        
+        # Vérification de la colonne 'type_of_generated_ORF'
+        if 'type_of_generated_ORF' in line.columns and not line['type_of_generated_ORF'].empty:
+            for orf in line['type_of_generated_ORF'].values[0].split(';'):
+                temp.append(orf)
+        else:
+            temp.append('NA')
+        
+        overlap.append(' '.join(temp))
+    else:
+        # Gérer les cas où il n'y a pas de correspondance dans MORFEE
+        ORF_type.append('NA')
+        location.append('NA')
+        overlap.append('NA')
 df_result = pd.concat(dataframes, ignore_index=True)
 
 output_file = f'{args.save_path}/filtered_MORFEE.xlsx'

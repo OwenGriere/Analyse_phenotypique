@@ -3,12 +3,18 @@ import seaborn as sns
 import pandas as pd
 import numpy as np
 import argparse
+import re
 
 ## Arguments for the python script
 parser = argparse.ArgumentParser()
 parser.add_argument('tab_path', type=str, help="the save path")
 parser.add_argument('save_path', type=str, help="the save path")
 args = parser.parse_args()
+
+
+def natural_key(chrom):
+    # Utilisation d'une expression régulière pour extraire les chiffres
+    return int(re.findall(r'\d+', chrom)[0])
 
 ######################################################################################################################
 ################################################# Graphics ###########################################################
@@ -33,7 +39,7 @@ result = result[['chr','pos','ID','-log10(p-value)']]
 
 ## separate the chromosome on the plot
 
-for chrom in sorted(chromosomes):
+for chrom in sorted(chromosomes, key=natural_key):
     chrom_length = df_analyse[df_analyse['chr'] == chrom]['pos'].max()
     chromosome_offsets[chrom] = current_offset
     current_offset += chrom_length #+ 1000000

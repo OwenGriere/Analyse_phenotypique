@@ -53,7 +53,7 @@ sns.scatterplot(data=df_analyse, x='adjusted_pos', y='-log10(p-value)', hue='chr
 plt.axhline(y=threshold, color='red', linestyle='--')
 plt.text(x=chromosome_offsets[sorted(chromosomes)[-1]] / 8, y=threshold + 0.2, s=f"Limite de significativité à {threshold}, {len(result)} variants significatifs", color='red', ha='center')
 
-for chrom in sorted(chromosomes):
+for chrom in sorted(chromosomes, key=natural_key):
     plt.axvline(x=chromosome_offsets[chrom], color='gray', linestyle='--')
 
 plt.xlabel('Position chromosomique')
@@ -61,7 +61,7 @@ plt.ylabel('p-value logscale')
 plt.title('Manhattan Plot des variants exomiques')
 
 chromosome_centers = {}
-sorted_chromosomes = sorted(chromosomes)
+sorted_chromosomes = sorted(chromosomes, key=natural_key)
 for i, chrom in enumerate(sorted_chromosomes):
     if i < len(sorted_chromosomes) - 1:
         next_chrom = sorted_chromosomes[i + 1]
